@@ -1,8 +1,11 @@
 import { HydratedDocument, InferSchemaType, model, Schema } from "mongoose";
 
 const userSchema = new Schema({
-  email: { type: String },
-  password: { type: String },
+  username: { type: String, required: true },
+  image: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  recipes: { type: Schema.ObjectId, ref: "Recipe" },
 });
 
 const User = model("User", userSchema);
