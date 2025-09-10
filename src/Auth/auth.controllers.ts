@@ -4,7 +4,7 @@ import { generatetoken } from "../Utils/jwt";
 import { serverError } from "../Middleware/serverError";
 import validator from "validator";
 import bcrypt from "bcrypt";
-import User from "../Data/User";
+import User from "../Models/User";
 import { invaldCredentialsErrorHandler } from "../Middleware/errors";
 
 export const signup = async (
