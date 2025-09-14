@@ -4,7 +4,7 @@ import { generatetoken } from "../Utils/jwt";
 import { serverError } from "../Middleware/serverError";
 import validator from "validator";
 import bcrypt from "bcrypt";
-import User from "../Data/User";
+import User from "../Models/User";
 import { invaldCredentialsErrorHandler } from "../Middleware/errors";
 
 export const signup = async (
@@ -13,32 +13,36 @@ export const signup = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body || {};
-    if (!email || !password) {
+    const { username, email, password } = req.body;
+    const image = req.file ? req.file.path : null;
+
+    if (!password || !username || !image || !email) {
       return next(
-        invaldCredentialsErrorHandler("Email and password are required")
+        invaldCredentialsErrorHandler(
+          "Username, image, email and password are required!"
+        )
       );
     }
-
     if (!validator.isEmail(email)) {
       return next(invaldCredentialsErrorHandler("Invalid email format"));
     }
 
     const emailExists = await User.findOne({ email });
     if (emailExists) {
-      return next({ message: "email already exists!", status: 400 });
+      return next({ message: "Email already exists!", status: 400 });
     }
     const hashedPassword = await generateHashPassword(password);
 
     const newUser = await User.create({
       ...req.body,
       password: hashedPassword,
+      image: image,
     });
     const token = generatetoken(newUser, email);
 
     return res.status(201).json({ token });
-  } catch (err) {
-    console.log("this is my error", err);
+  } catch (error) {
+    console.log("this is my SIGNUP error", error);
     return next(serverError);
   }
 };
@@ -65,7 +69,7 @@ export const signin = async (
       return next(invaldCredentialsErrorHandler());
     }
     const token = generatetoken(emailFound._id, email);
-    res.status(200).json({ token });
+    return res.status(200).json({ token });
   } catch (err) {
     return next(serverError);
   }
