@@ -1,6 +1,4 @@
 import { HydratedDocument, InferSchemaType, model, Schema } from "mongoose";
-import Catagory from "./Catagory";
-import { userInfo } from "os";
 
 const recipeSchema = new Schema({
   name: { type: String, required: true },
