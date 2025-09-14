@@ -15,7 +15,6 @@ app.use("/media", express.static(path.join(__dirname, "../media")));
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
-
 app.use(errorHandler);
 app.use(notFound);
 
