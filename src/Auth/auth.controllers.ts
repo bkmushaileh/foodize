@@ -69,7 +69,7 @@ export const signin = async (
       return next(invaldCredentialsErrorHandler());
     }
     const token = generatetoken(emailFound._id, email);
-    res.status(200).json({ token });
+    return res.status(200).json({ token });
   } catch (err) {
     return next(serverError);
   }
