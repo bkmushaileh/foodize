@@ -18,9 +18,9 @@ const recipeSchema = new Schema({
   steps: { type: [String], required: true },
   description: { type: String, required: true },
   time: { type: Number, required: true },
-  defficulty: { type: String, required: true },
-  calorie: { type: Number },
-  Catagory: { type: Schema.ObjectId, ref: "Catagory", required: true },
+  difficulty: { type: String, required: true },
+  calories: { type: Number },
+  category: { type: Schema.ObjectId, ref: "Catagory", required: true },
   user: { type: Schema.ObjectId, ref: "User", required: true },
 });
 

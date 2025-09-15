@@ -27,15 +27,13 @@ export const authorization = async (
         return next({ status: 401, message: "not authorized" });
       }
       req.user = user;
+      console.log(req.user);
       next();
     } catch (err) {
-      res.status(401).json({ message: "Invalid or expired token" });
+      return res.status(401).json({ message: "Invalid or expired token" });
     }
   } catch (error) {
     console.log(error);
-    next(serverError);
+    return next(serverError);
   }
 };
-
-
-//test

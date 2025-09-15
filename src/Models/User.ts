@@ -5,7 +5,7 @@ const userSchema = new Schema({
   image: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  recipes: { type: Schema.ObjectId, ref: "Recipe" },
+  recipes: [{ type: Schema.ObjectId, ref: "Recipe" }],
 });
 
 const User = model("User", userSchema);

@@ -5,3 +5,7 @@ export const invaldCredentialsErrorHandler = (
 ) => {
   return { status: 401, message };
 };
+
+export const usersNotFound = (message = "Users Not Found") => {
+  return { status: 404, message };
+};
