@@ -1,13 +1,18 @@
+import { populate } from "dotenv";
 import { HydratedDocument, InferSchemaType, model, Schema } from "mongoose";
 
 const recipeSchema = new Schema({
   name: { type: String, required: true },
-  image: { type: String, required: true },
+  image: { type: String, required: false },
   ingredients: [
     {
-      amount: { type: String, required: true },
+      amount: { type: Number, required: true },
       unit: { type: String, required: true },
-      item: { type: Schema.Types.ObjectId, ref: "Ingredient", required: true },
+      ingredient: {
+        type: Schema.ObjectId,
+        ref: "Ingredient",
+        populate: ["id", "name"],
+      },
     },
   ],
   steps: { type: [String], required: true },

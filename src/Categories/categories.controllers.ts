@@ -12,6 +12,13 @@ const createCategory = async (
     if (!name) {
       return next({ message: "Name is required!", status: 401 });
     }
+
+    const catagoryExist = await Catagory.findOne({ name });
+
+    if (catagoryExist) {
+      return next({ message: "Duplicated Category!", status: 401 });
+    }
+
     const category = await Catagory.create(req.body);
     console.log("🚀 ~ createCategory ~ req.body:", req.body);
     return res.status(201).json(category);
