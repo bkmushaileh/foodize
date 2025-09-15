@@ -8,7 +8,7 @@ import path from "path";
 import { notFound } from "./Middleware/notFound";
 import authRouter from "./Auth/auth.routers";
 import catagoryRouter from "./Categories/categories.routes";
-import recipes from "../src/recipess/recipes.Route";
+import recipeAuthor from "../src/recipess/recipes.Route";
 import userRouter from "./User/user.routes";
 connectDB();
 
@@ -19,6 +19,8 @@ app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/api/auth", authRouter);
 app.use("/api/catagory", catagoryRouter);
+app.use("/api/user", userRouter);
+app.use("/api/recipe", recipeAuthor);
 app.use(errorHandler);
 app.use(notFound);
 
