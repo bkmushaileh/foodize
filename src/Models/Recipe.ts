@@ -11,7 +11,6 @@ const recipeSchema = new Schema({
       ingredient: {
         type: Schema.ObjectId,
         ref: "Ingredient",
-        populate: ["id", "name"],
       },
     },
   ],
@@ -20,8 +19,8 @@ const recipeSchema = new Schema({
   time: { type: Number, required: true },
   difficulty: { type: String, required: true },
   calories: { type: Number },
-  category: { type: Schema.ObjectId, ref: "Catagory", required: true },
-  user: { type: Schema.ObjectId, ref: "User", required: true },
+  category: { type: Schema.ObjectId, ref: "Catagory", required: false },
+  user: { type: Schema.ObjectId, ref: "User", required: false },
 });
 
 const Recipe = model("Recipe", recipeSchema);
