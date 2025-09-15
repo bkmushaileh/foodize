@@ -1,5 +1,5 @@
 import { serverError } from "../Middleware/serverError";
-import Catagory from "../Models/Catagory";
+import Catagory from "../Models/Category";
 import { NextFunction, Request, Response } from "express";
 
 const createCategory = async (
@@ -36,7 +36,7 @@ const getCategories = async (
   try {
     const categories = await Catagory.find();
 
-    if (!categories) {
+    if (!categories.length) {
       return next({ message: "Catagory notfound", status: 404 });
     }
     return res.status(200).json(categories);

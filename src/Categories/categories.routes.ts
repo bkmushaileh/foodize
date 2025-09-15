@@ -1,6 +1,6 @@
 import express from "express";
-import { createCategory, getCategories } from "./categories.controllers";
 import { authorization } from "../API/authorization";
+import { createCategory, getCategories } from "./categories.controller";
 
 const router = express.Router();
 
