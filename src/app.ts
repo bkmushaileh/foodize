@@ -8,16 +8,18 @@ import path from "path";
 import { notFound } from "./Middleware/notFound";
 import authRouter from "./Auth/auth.routers";
 import catagoryRouter from "./Categories/categories.routes";
-
+import userRouter from "./User/user.routes";
 connectDB();
 
 const app = express();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
-app.use("/Uploads", express.static(path.join(__dirname, "../Uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/api/auth", authRouter);
 app.use("/api/catagory", catagoryRouter);
+app.use("/api/user", userRouter);
+
 app.use(errorHandler);
 app.use(notFound);
 
