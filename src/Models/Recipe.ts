@@ -1,4 +1,3 @@
-import { populate } from "dotenv";
 import { HydratedDocument, InferSchemaType, model, Schema } from "mongoose";
 
 const recipeSchema = new Schema({
@@ -11,7 +10,6 @@ const recipeSchema = new Schema({
       ingredient: {
         type: Schema.ObjectId,
         ref: "Ingredient",
-        populate: ["id", "name"],
         required: false,
       },
     },
@@ -29,6 +27,6 @@ const recipeSchema = new Schema({
 
 const Recipe = model("Recipe", recipeSchema);
 
-export type UserAttrs = InferSchemaType<typeof recipeSchema>;
-export type UserDoc = HydratedDocument<UserAttrs>;
+export type RecipeAttrs = InferSchemaType<typeof recipeSchema>;
+export type RecipeDoc = HydratedDocument<RecipeAttrs>;
 export default Recipe;
