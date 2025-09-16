@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { env } from "../Config/config";
-import { serverError } from "../Middleware/serverError";
+import { serverError } from "./serverError";
 import User from "../Models/User";
 
 export const authorization = async (
@@ -20,7 +20,7 @@ export const authorization = async (
       return res.status(401).json({ message: "Invalid auth format" });
     }
     try {
-      const decodeToken: any = jwt.verify(token, env.JWT_Secret!);
+      const decodeToken: any = jwt.verify(token, env.JWT_SECRET!);
       const { _id } = decodeToken;
       const user = await User.findById(_id);
       if (!user) {
