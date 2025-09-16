@@ -1,5 +1,8 @@
 import Recipe from "../Models/Recipe";
 import { NextFunction, Request, Response } from "express";
+<<<<<<< HEAD:src/recipess/recipes.controller.ts
+import Catagory from "../Models/Catagory";
+=======
 import Catagory from "../Models/Category";
 import { serverError } from "../Middleware/serverError";
 import User from "../Models/User";
@@ -65,9 +68,15 @@ export const createRecipes = async (
         { $addToSet: { recipes: recipe._id } }
       );
     }
+<<<<<<< HEAD:src/recipess/recipes.controller.ts
+    res.status(201).json(recipe);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+=======
     return res.status(201).json(recipe);
   } catch (err: any) {
     return next(serverError);
+>>>>>>> f5cface3def97c08bb038b9f77f402aaf6863bb2:src/Recipes/recipes.controller.ts
   }
 };
 export const getAllRecipes = async (
@@ -76,12 +85,22 @@ export const getAllRecipes = async (
   next: NextFunction
 ) => {
   try {
+<<<<<<< HEAD:src/recipess/recipes.controller.ts
+    const recipes = await Recipe.find();
+    //   .populate("user", "name email")
+    //   .populate({ path: "catagory", select: "name" });
+    res.json(recipes);
+=======
     const recipes = await Recipe.find()
       .populate("user", "name username")
       .populate("categories", "name")
       .populate("ingredients", "name amount unit");
 
-    res.json(recipes);
+    if (!recipes.length) {
+      return next({ status: 404, message: "No Recipe Found!" });
+    }
+    return res.json(recipes);
+>>>>>>> f5cface3def97c08bb038b9f77f402aaf6863bb2:src/Recipes/recipes.controller.ts
   } catch (err: any) {
     console.log(err);
     return next(serverError);
