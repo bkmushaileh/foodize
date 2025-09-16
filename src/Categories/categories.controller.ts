@@ -36,9 +36,6 @@ const getCategories = async (
   try {
     const categories = await Catagory.find();
 
-    if (!categories.length) {
-      return next({ message: "Category Not Found!", status: 404 });
-    }
     return res.status(200).json(categories);
   } catch (error) {
     return next(serverError);
