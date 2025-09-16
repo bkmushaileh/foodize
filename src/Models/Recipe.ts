@@ -24,7 +24,6 @@ const recipeSchema = new Schema({
   ],
   user: { type: Schema.ObjectId, ref: "User", required: true },
   category: { type: Schema.ObjectId, ref: "Catagory", required: false },
-  user: { type: Schema.ObjectId, ref: "User", required: false },
 });
 
 const Recipe = model("Recipe", recipeSchema);
