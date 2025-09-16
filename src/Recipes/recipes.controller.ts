@@ -83,7 +83,7 @@ export const getAllRecipes = async (
 
     res.json(recipes);
   } catch (err: any) {
-    res.status(500).json({ error: err.message });
+    console.log(err);
     return next(serverError);
   }
 };

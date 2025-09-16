@@ -20,7 +20,7 @@ const recipeSchema = new Schema({
   difficulty: { type: String, required: true },
   calories: { type: Number },
   categories: [
-    { type: Schema.Types.ObjectId, ref: "Catagory", required: true },
+    { type: Schema.Types.ObjectId, ref: "Category", required: true },
   ],
   user: { type: Schema.ObjectId, ref: "User", required: true },
 });
