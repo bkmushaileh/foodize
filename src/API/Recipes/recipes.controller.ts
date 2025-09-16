@@ -1,32 +1,72 @@
-import Recipe from "../Models/Recipe";
 import { NextFunction, Request, Response } from "express";
-import Catagory from "../Models/Category";
-import { serverError } from "../Middleware/serverError";
-import { log } from "console";
+import User from "../../Models/User";
+import Category from "../../Models/Category";
+import { serverError } from "../../Middleware/serverError";
+import Recipe from "../../Models/Recipe";
+
 export const createRecipes = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    if (!req.user?._id) {
-      return next({ status: 401, message: "Unauthorized" });
+    const {
+      name,
+      image,
+      ingredients,
+      steps,
+      description,
+      time,
+      difficulty,
+      calories,
+      categories,
+    } = req.body;
+
+    if (!req.user?._id) return res.status(401).json({ error: "Unauthorized" });
+
+    if (
+      !name ||
+      !image ||
+      !Array.isArray(steps) ||
+      steps.length === 0 ||
+      !description ||
+      time == null ||
+      !difficulty ||
+      !calories ||
+      !Array.isArray(categories) ||
+      categories.length === 0
+    ) {
+      return next({
+        status: 400,
+        message:
+          "Required: name, image, ingredients[], steps[], description, time, difficulty, categories[].",
+      });
     }
     const recipe = new Recipe({
-      ...req.body,
+      name,
+      image,
+      ingredients,
+      steps,
+      description,
+      time,
+      difficulty,
+      calories,
+      categories,
       user: req.user._id,
     });
-    await recipe.save();
 
+    await recipe.save();
+    await User.findByIdAndUpdate(req.user._id, {
+      $addToSet: { recipes: recipe._id },
+    });
     if (req.body.categories && req.body.categories.length > 0) {
-      await Catagory.updateMany(
+      await Category.updateMany(
         { _id: { $in: req.body.categories } },
         { $addToSet: { recipes: recipe._id } }
       );
     }
     return res.status(201).json(recipe);
   } catch (err: any) {
-    console.log(err);
     return next(serverError);
   }
 };
@@ -37,15 +77,16 @@ export const getAllRecipes = async (
 ) => {
   try {
     const recipes = await Recipe.find()
-      .populate("user", "username image")
-      .populate("category", "name");
+      .populate("user", "name username")
+      .populate({ path: "categories", select: "category.name" })
+      .populate("ingredients", "name amount unit");
 
     if (!recipes.length) {
       return next({ status: 404, message: "No Recipe Found!" });
     }
     return res.json(recipes);
   } catch (err: any) {
-    res.status(500).json({ error: err.message });
+    console.log(err);
     return next(serverError);
   }
 };
@@ -72,11 +113,11 @@ export const updateRecipe = async (req: Request, res: Response) => {
 
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
     if (req.body.categories) {
-      await Catagory.updateMany(
+      await Category.updateMany(
         { recipes: recipe._id },
         { $pull: { recipes: recipe._id } }
       );
-      await Catagory.updateMany(
+      await Category.updateMany(
         { _id: { $in: req.body.categories } },
         { $push: { recipes: recipe._id } }
       );
@@ -93,7 +134,7 @@ export const deleteRecipe = async (req: Request, res: Response) => {
     const recipe = await Recipe.findByIdAndDelete(req.params.id);
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
 
-    await Catagory.updateMany(
+    await Category.updateMany(
       { recipes: recipe._id },
       { $pull: { recipes: recipe._id } }
     );
@@ -103,3 +144,5 @@ export const deleteRecipe = async (req: Request, res: Response) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// getMyRecipes

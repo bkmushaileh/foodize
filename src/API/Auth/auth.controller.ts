@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { generateHashPassword } from "../Utils/hashPassword";
-import { generatetoken } from "../Utils/jwt";
-import { serverError } from "../Middleware/serverError";
+import { generateHashPassword } from "../../Utils/hashPassword";
+import { generatetoken } from "../../Utils/jwt";
+import { serverError } from "../../Middleware/serverError";
 import validator from "validator";
 import bcrypt from "bcrypt";
-import User from "../Models/User";
-import { invaldCredentialsErrorHandler } from "../Middleware/errors";
+import User from "../../Models/User";
+import { invaldCredentialsErrorHandler } from "../../Middleware/errors";
 
 export const signup = async (
   req: Request,

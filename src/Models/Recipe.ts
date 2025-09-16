@@ -2,7 +2,7 @@ import { HydratedDocument, InferSchemaType, model, Schema } from "mongoose";
 
 const recipeSchema = new Schema({
   name: { type: String, required: true },
-  image: { type: String, required: false },
+  image: { type: String, required: true },
   ingredients: [
     {
       amount: { type: Number, required: true },
@@ -10,7 +10,7 @@ const recipeSchema = new Schema({
       ingredient: {
         type: Schema.ObjectId,
         ref: "Ingredient",
-        populate: ["id", "name"],
+        required: false,
       },
     },
   ],
@@ -19,7 +19,9 @@ const recipeSchema = new Schema({
   time: { type: Number, required: true },
   difficulty: { type: String, required: true },
   calories: { type: Number },
-  category: [{ type: Schema.ObjectId, ref: "Category", required: false }],
+  categories: [
+    { type: Schema.Types.ObjectId, ref: "Category", required: true },
+  ],
   user: { type: Schema.ObjectId, ref: "User", required: true },
 });
 

@@ -1,6 +1,6 @@
-import { serverError } from "../Middleware/serverError";
-import Catagory from "../Models/Category";
 import { NextFunction, Request, Response } from "express";
+import Category from "../../Models/Category";
+import { serverError } from "../../Middleware/serverError";
 
 const createCategory = async (
   req: Request,
@@ -13,13 +13,13 @@ const createCategory = async (
       return next({ message: "Name is required!", status: 401 });
     }
 
-    const catagoryExist = await Catagory.findOne({ name });
+    const catagoryExist = await Category.findOne({ name });
 
     if (catagoryExist) {
       return next({ message: "Duplicated Category!", status: 401 });
     }
 
-    const category = await Catagory.create(req.body);
+    const category = await Category.create(req.body);
     console.log("🚀 ~ createCategory ~ req.body:", req.body);
     return res.status(201).json(category);
   } catch (error) {
@@ -34,11 +34,8 @@ const getCategories = async (
   next: NextFunction
 ) => {
   try {
-    const categories = await Catagory.find();
+    const categories = await Category.find();
 
-    if (!categories.length) {
-      return next({ message: "Catagory notfound", status: 404 });
-    }
     return res.status(200).json(categories);
   } catch (error) {
     return next(serverError);

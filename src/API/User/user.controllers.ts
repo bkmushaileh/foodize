@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { usersNotFound } from "../Middleware/errors";
-import { serverError } from "../Middleware/serverError";
-import User from "../Models/User";
-import Recipe from "../Models/Recipe";
+import User from "../../Models/User";
+import { usersNotFound } from "../../Middleware/errors";
+import { serverError } from "../../Middleware/serverError";
 
 export const getAllUsers = async (
   req: Request,
@@ -27,10 +26,13 @@ export const getUserByID = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.user?._id) {
-      return next({ status: 401, message: "Unauthorized" });
-    }
-    const user = await User.findById(req.user?._id).select("-password -__v");
+    const user = await User.findById(req.user?._id)
+      .select("-password -__v")
+      .populate({
+        path: "recipes",
+        select: "name image time difficulty categories",
+        populate: { path: "categories", select: "name" },
+      });
 
     if (!user) {
       return next({ status: 404, message: "User Not Found!" });

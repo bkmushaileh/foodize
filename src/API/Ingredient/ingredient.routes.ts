@@ -1,6 +1,6 @@
 import express from "express";
-import { authorization } from "../authorization";
 import { createIngredient, getIngredient } from "./ingredient.controller";
+import { authorization } from "../../Middleware/authorization";
 
 const router = express.Router();
 
