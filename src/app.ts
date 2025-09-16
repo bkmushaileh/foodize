@@ -9,6 +9,7 @@ import { notFound } from "./Middleware/notFound";
 import authRouter from "./Auth/auth.Route";
 import categoryRouter from "./Categories/categories.routes";
 import recipeAuthor from "./Recipes/recipes.Route";
+import IngredientRouter from "./API/Ingredient/ingredient.routes";
 import userRouter from "./User/user.routes";
 connectDB();
 
@@ -21,6 +22,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/user", userRouter);
 app.use("/api/recipe", recipeAuthor);
+app.use("/api/ingredient", IngredientRouter);
 app.use(errorHandler);
 app.use(notFound);
 
