@@ -6,7 +6,7 @@ import {
   updateRecipe,
   deleteRecipe,
 } from "./recipes.controller";
-import { authorization } from "../API/authorization";
+import { authorization } from "../../Middleware/authorization";
 
 const router = Router();
 

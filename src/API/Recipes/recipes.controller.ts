@@ -1,9 +1,8 @@
-import Recipe from "../Models/Recipe";
 import { NextFunction, Request, Response } from "express";
-
-import { serverError } from "../Middleware/serverError";
-import User from "../Models/User";
-import Category from "../Models/Category";
+import User from "../../Models/User";
+import Category from "../../Models/Category";
+import { serverError } from "../../Middleware/serverError";
+import Recipe from "../../Models/Recipe";
 
 export const createRecipes = async (
   req: Request,
@@ -79,7 +78,7 @@ export const getAllRecipes = async (
   try {
     const recipes = await Recipe.find()
       .populate("user", "name username")
-      .populate("categories", "name")
+      .populate({ path: "categories", select: "category.name" })
       .populate("ingredients", "name amount unit");
 
     if (!recipes.length) {
@@ -145,3 +144,5 @@ export const deleteRecipe = async (req: Request, res: Response) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// getMyRecipes

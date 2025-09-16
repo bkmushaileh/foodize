@@ -6,10 +6,10 @@ import morgan from "morgan";
 import { errorHandler } from "./Middleware/errorHandler";
 import path from "path";
 import { notFound } from "./Middleware/notFound";
-import authRouter from "./Auth/auth.Route";
-import categoryRouter from "./Categories/categories.routes";
-import recipeAuthor from "./Recipes/recipes.Route";
-import userRouter from "./User/user.routes";
+import authRouter from "./API/Auth/auth.Route";
+import categoryRouter from "./API/Categories/categories.routes";
+import recipeAuthor from "./API/Recipes/recipes.Route";
+import userRouter from "./API/User/user.routes";
 connectDB();
 
 const app = express();
