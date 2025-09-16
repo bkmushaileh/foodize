@@ -1,6 +1,6 @@
 import Recipe from "../Models/Recipe";
 import { NextFunction, Request, Response } from "express";
-import Catagory from "../Models/Catagory";
+import Catagory from "../Models/Category";
 import { serverError } from "../Middleware/serverError";
 import User from "../Models/User";
 
@@ -62,7 +62,7 @@ export const createRecipes = async (
     if (req.body.categories && req.body.categories.length > 0) {
       await Catagory.updateMany(
         { _id: { $in: req.body.categories } },
-        { $push: { recipes: recipe._id } }
+        { $addToSet: { recipes: recipe._id } }
       );
     }
     return res.status(201).json(recipe);
@@ -70,7 +70,11 @@ export const createRecipes = async (
     return next(serverError);
   }
 };
-export const getAllRecipes = async (req: Request, res: Response) => {
+export const getAllRecipes = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const recipes = await Recipe.find()
       .populate("user", "name username")
@@ -80,6 +84,7 @@ export const getAllRecipes = async (req: Request, res: Response) => {
     res.json(recipes);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
+    return next(serverError);
   }
 };
 export const getRecipeById = async (req: Request, res: Response) => {

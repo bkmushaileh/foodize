@@ -7,6 +7,6 @@ const ingredientSchema = new Schema({
 
 const Ingredient = model("Ingredient", ingredientSchema);
 
-export type UserAttrs = InferSchemaType<typeof ingredientSchema>;
-export type UserDoc = HydratedDocument<UserAttrs>;
+export type IngredientAttrs = InferSchemaType<typeof ingredientSchema>;
+export type IngredientDoc = HydratedDocument<IngredientAttrs>;
 export default Ingredient;

@@ -1,5 +1,5 @@
 import express from "express";
-import { signin, signup } from "./auth.controllers";
+import { signin, signup } from "./auth.controller";
 import upload from "../Middleware/multer";
 
 const router = express.Router();
