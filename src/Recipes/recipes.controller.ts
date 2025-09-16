@@ -1,11 +1,9 @@
 import Recipe from "../Models/Recipe";
 import { NextFunction, Request, Response } from "express";
-<<<<<<< HEAD:src/recipess/recipes.controller.ts
-import Catagory from "../Models/Catagory";
-=======
-import Catagory from "../Models/Category";
+
 import { serverError } from "../Middleware/serverError";
 import User from "../Models/User";
+import Category from "../Models/Category";
 
 export const createRecipes = async (
   req: Request,
@@ -63,20 +61,14 @@ export const createRecipes = async (
       $addToSet: { recipes: recipe._id },
     });
     if (req.body.categories && req.body.categories.length > 0) {
-      await Catagory.updateMany(
+      await Category.updateMany(
         { _id: { $in: req.body.categories } },
         { $addToSet: { recipes: recipe._id } }
       );
     }
-<<<<<<< HEAD:src/recipess/recipes.controller.ts
-    res.status(201).json(recipe);
-  } catch (err: any) {
-    res.status(400).json({ error: err.message });
-=======
     return res.status(201).json(recipe);
   } catch (err: any) {
     return next(serverError);
->>>>>>> f5cface3def97c08bb038b9f77f402aaf6863bb2:src/Recipes/recipes.controller.ts
   }
 };
 export const getAllRecipes = async (
@@ -85,12 +77,6 @@ export const getAllRecipes = async (
   next: NextFunction
 ) => {
   try {
-<<<<<<< HEAD:src/recipess/recipes.controller.ts
-    const recipes = await Recipe.find();
-    //   .populate("user", "name email")
-    //   .populate({ path: "catagory", select: "name" });
-    res.json(recipes);
-=======
     const recipes = await Recipe.find()
       .populate("user", "name username")
       .populate("categories", "name")
@@ -100,7 +86,6 @@ export const getAllRecipes = async (
       return next({ status: 404, message: "No Recipe Found!" });
     }
     return res.json(recipes);
->>>>>>> f5cface3def97c08bb038b9f77f402aaf6863bb2:src/Recipes/recipes.controller.ts
   } catch (err: any) {
     console.log(err);
     return next(serverError);
@@ -129,11 +114,11 @@ export const updateRecipe = async (req: Request, res: Response) => {
 
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
     if (req.body.categories) {
-      await Catagory.updateMany(
+      await Category.updateMany(
         { recipes: recipe._id },
         { $pull: { recipes: recipe._id } }
       );
-      await Catagory.updateMany(
+      await Category.updateMany(
         { _id: { $in: req.body.categories } },
         { $push: { recipes: recipe._id } }
       );
@@ -150,7 +135,7 @@ export const deleteRecipe = async (req: Request, res: Response) => {
     const recipe = await Recipe.findByIdAndDelete(req.params.id);
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
 
-    await Catagory.updateMany(
+    await Category.updateMany(
       { recipes: recipe._id },
       { $pull: { recipes: recipe._id } }
     );
