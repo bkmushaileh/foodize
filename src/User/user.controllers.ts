@@ -30,7 +30,13 @@ export const getUserByID = async (
     if (!req.user?._id) {
       return next({ status: 401, message: "Unauthorized" });
     }
-    const user = await User.findById(req.user?._id).select("-password -__v");
+    const user = await User.findById(req.user?._id)
+      .select("-password -__v")
+      .populate({
+        path: "recipes", // field on User schema
+        select: "name image time difficulty categories", // choose fields you want
+        populate: { path: "categories", select: "name" }, // nested populate
+      });
 
     if (!user) {
       return next({ status: 404, message: "User Not Found!" });

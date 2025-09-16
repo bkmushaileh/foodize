@@ -6,13 +6,14 @@ import {
   updateRecipe,
   deleteRecipe,
 } from "../recipess/recipes.controller";
+import { authorization } from "../API/authorization";
 
 const router = Router();
 
-router.post("/", createRecipes); 
-router.get("/", getAllRecipes);  
-router.get("/:id", getRecipeById); 
-router.put("/:id", updateRecipe); 
-router.delete("/:id", deleteRecipe);  
+router.post("/", authorization, createRecipes);
+router.get("/", getAllRecipes);
+router.get("/:id", getRecipeById);
+router.put("/:id", updateRecipe);
+router.delete("/:id", deleteRecipe);
 
 export default router;
