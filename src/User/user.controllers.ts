@@ -33,9 +33,9 @@ export const getUserByID = async (
     const user = await User.findById(req.user?._id)
       .select("-password -__v")
       .populate({
-        path: "recipes", // field on User schema
-        select: "name image time difficulty categories", // choose fields you want
-        populate: { path: "categories", select: "name" }, // nested populate
+        path: "recipes",
+        select: "name image time difficulty categories",
+        populate: { path: "categories", select: "name" },
       });
 
     if (!user) {
