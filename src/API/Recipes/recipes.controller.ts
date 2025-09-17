@@ -12,7 +12,6 @@ export const createRecipes = async (
   try {
     const {
       name,
-      image,
       ingredients,
       steps,
       description,
@@ -21,6 +20,7 @@ export const createRecipes = async (
       calories,
       categories,
     } = req.body;
+    const image = req.file ? req.file.path : null;
 
     if (!req.user?._id) return res.status(401).json({ error: "Unauthorized" });
 
@@ -67,7 +67,8 @@ export const createRecipes = async (
     }
     return res.status(201).json(recipe);
   } catch (err: any) {
-    return next(serverError);
+    console.error("createRecipes error:", err);
+    return next(err);
   }
 };
 export const getAllRecipes = async (

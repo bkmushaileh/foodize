@@ -1,7 +1,13 @@
 import { HydratedDocument, InferSchemaType, model, Schema } from "mongoose";
 
 const categorySchema = new Schema({
-  name: { type: String, required: true, lowercase: true, unique: true },
+  name: {
+    type: String,
+    required: true,
+    lowercase: true,
+    unique: true,
+    trim: true,
+  },
   recipes: [{ type: Schema.ObjectId, ref: "Recipe" }],
 });
 
