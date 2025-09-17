@@ -7,10 +7,11 @@ import {
   deleteRecipe,
 } from "./recipes.controller";
 import { authorization } from "../../Middleware/authorization";
+import upload from "../../Middleware/multer";
 
 const router = Router();
 
-router.post("/", authorization, createRecipes);
+router.post("/", authorization, upload.single("image"), createRecipes);
 router.get("/", getAllRecipes);
 router.get("/:id", getRecipeById);
 router.put("/:id", updateRecipe);
