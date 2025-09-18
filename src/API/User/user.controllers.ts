@@ -30,7 +30,8 @@ export const getUserByID = async (
       .select("-password -__v")
       .populate({
         path: "recipes",
-        select: "name image time difficulty categories",
+        select:
+          "name image time difficulty categories steps description calories",
         populate: { path: "categories", select: "name" },
       });
 
