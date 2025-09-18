@@ -5,13 +5,13 @@ const recipeSchema = new Schema({
   image: { type: String, required: true },
   ingredients: [
     {
-      amount: { type: Number, required: true },
-      unit: { type: String, required: true },
-      ingredient: {
-        type: Schema.ObjectId,
-        ref: "Ingredient",
-        required: false,
-      },
+      // amount: { type: Number, required: true },
+      // unit: { type: String, required: true },
+      // ingredient: {
+      type: Schema.ObjectId,
+      ref: "Ingredient",
+      // required: false,
+      // },
     },
   ],
   steps: { type: [String], required: true },
