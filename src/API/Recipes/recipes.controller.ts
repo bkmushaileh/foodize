@@ -21,9 +21,9 @@ export const createRecipes = async (
       categories,
     } = req.body;
     const image = req.file ? req.file.path : null;
-
+    console.log(req.body);
     if (!req.user?._id) return res.status(401).json({ error: "Unauthorized" });
-
+    console.log(req.body);
     if (
       !name ||
       !image ||
@@ -42,6 +42,8 @@ export const createRecipes = async (
           "Required: name, image, ingredients[], steps[], description, time, difficulty, categories[].",
       });
     }
+
+    console.log(req.body.ingredients);
     const recipe = new Recipe({
       name,
       image,
